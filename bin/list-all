@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+set -e -o pipefail
+
+function list_all() {
+  local releases_path="https://api.github.com/repos/kubernetes-sigs/cluster-api/releases"
+  local cmd=("curl" "-s");
+  if [ -n "$GITHUB_API_TOKEN" ]; then
+    cmd+=("-H" "Authorization: token ${GITHUB_API_TOKEN}")
+  fi
+  cmd+=("$releases_path")
+  list_of_versions="$("${cmd[@]}" | sed -n -e 's/.*"tag_name".*:.*"v\(.*\)",$/\1/p' | sort -V | tail -n+2 )"
+  for version in $list_of_versions; do
+    versions+=("$version")
+  done
+  echo "${versions[@]}"
+}
+
+list_all
+# vim: ai ts=2 sw=2 et sts=2 ft=sh

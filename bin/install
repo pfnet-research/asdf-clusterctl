@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+install_clusterctl() {
+  # local install_type=$1
+  local version=$2
+  local install_path=$3
+  local bin_install_path="${install_path}/bin"
+  local bin_path="${bin_install_path}/clusterctl"
+
+  local os; os="$(uname -s | tr "[:upper:]" "[:lower:]")"
+  local download_url="https://github.com/kubernetes-sigs/cluster-api/releases/download/v${version}/clusterctl-${os}-amd64"
+
+  echo "Downloading clusterctl from ${download_url}"
+
+  mkdir -p "$bin_install_path"
+  curl -sLo "$bin_path" "$download_url"
+  chmod +x "$bin_path"
+}
+
+install_clusterctl "$ASDF_INSTALL_TYPE" "$ASDF_INSTALL_VERSION" "$ASDF_INSTALL_PATH"
+# vim: ai ts=2 sw=2 et sts=2 ft=sh
