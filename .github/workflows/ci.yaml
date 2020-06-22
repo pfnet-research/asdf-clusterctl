@@ -15,7 +15,7 @@ jobs:
         os: [ubuntu-latest, macos-latest]
     steps:
     - uses: actions/checkout@v2
-    - uses: asdf-vm/actions/plugin-test@v1.0.0
+    - uses: asdf-vm/actions/plugin-test@v1
       with:
         command: clusterctl version
       env:
