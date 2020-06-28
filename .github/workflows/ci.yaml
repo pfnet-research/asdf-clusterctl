@@ -6,6 +6,8 @@ on:
     paths_ignore: ["**.md"]
   pull_request:
     paths_ignore: ["**.md"]
+  schedule:
+  - cron: "0 0 * * *"
 
 jobs:
   test:
