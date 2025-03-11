@@ -1,3 +1,3 @@
 .PHONY: lint
 lint:
-		shellcheck bin/*
+	shellcheck bin/*
