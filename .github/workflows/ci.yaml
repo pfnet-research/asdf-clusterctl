@@ -7,7 +7,7 @@ on:
   pull_request:
     paths_ignore: ["**.md"]
   schedule:
-  - cron: "0 0 * * *"
+  - cron: "0 0 1 * *"
 
 jobs:
   test:
@@ -16,12 +16,12 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest]
     steps:
-    - uses: actions/checkout@v2
-    - uses: asdf-vm/actions/plugin-test@v1
+    - uses: actions/checkout@v4
+    - uses: asdf-vm/actions/plugin-test@v3
       with:
         command: clusterctl version
   lint:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - run: make lint
