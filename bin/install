@@ -9,13 +9,31 @@ install_clusterctl() {
   local bin_install_path="${install_path}/bin"
   local bin_path="${bin_install_path}/clusterctl"
 
-  local os; os="$(uname -s | tr "[:upper:]" "[:lower:]")"
-  local download_url="https://github.com/kubernetes-sigs/cluster-api/releases/download/v${version}/clusterctl-${os}-amd64"
+  # Detect OS
+  local os
+  os="$(uname -s | tr "[:upper:]" "[:lower:]")"
+
+  # Detect ARCH
+  local arch
+  case "$(uname -m)" in
+    x86_64 | amd64)
+      arch="amd64"
+      ;;
+    aarch64 | arm64)
+      arch="arm64"
+      ;;
+    *)
+      echo "Unsupported architecture: $(uname -m)"
+      exit 1
+      ;;
+  esac
+
+  local download_url="https://github.com/kubernetes-sigs/cluster-api/releases/download/v${version}/clusterctl-${os}-${arch}"
 
   echo "Downloading clusterctl from ${download_url}"
 
   mkdir -p "$bin_install_path"
-  curl -sLo "$bin_path" "$download_url"
+  curl -fsSL -o "$bin_path" "$download_url"
   chmod +x "$bin_path"
 }
 
